@@ -1,0 +1,103 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyPRcLE0c+ga6+5Lr8CYS3ci",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/MichaelMharadze/MichaelMharadze.github.io/blob/main/comp%20modelling%20assign\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "f_FTCDIdC5hQ"
+      },
+      "outputs": [],
+      "source": [
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt\n",
+        "import seaborn as sns\n",
+        "\n",
+        "#sir model fnction\n",
+        "ddef sir_model(SO, IO, RO, beta, gamma, days):S, I, R = [SO],[IO],[RO]\n",
+        "N = SO + IO + RO\n",
+        "\n",
+        "for _ in range(days):new_S = S[-1] - beta*S[-1]*I[-1]/N\n",
+        "new_I = I[-1] + beta * S[-1]*I[-1]/N-gamma*I[-1]\n",
+        "new_R = R[-1] + gamma *I[-1]\n",
+        "S.append(new_S)\n",
+        "I.append(new_I)\n",
+        "R.append(new_R)\n",
+        "return S, I, R\n",
+        "\n",
+        "#Parameters\n",
+        "days=160\n",
+        "SO, IO, RO = 990, 10, 0\n",
+        "params = [(0.3, 0.1), (0.2, 0.1) (0.3, 0.2)]\n",
+        "\n",
+        "# Run simulations\n",
+        "results  = []\n",
+        "for beta, gamma in params: results.append(sir_model(SO, IO, RO, beta, gamma, days))\n",
+        "\n",
+        "#plot first result with annotations\n",
+        "S, I, R = results[0]\n",
+        "time = np.arange(0, days + 1)\n",
+        "\n",
+        "plt.figure(figsize=(12, 6))\n",
+        "sns.lineplot(x=time, y=S, label = 'Susceptible')\n",
+        "sns.lineplot(x=time, y=I, label ='Infected')\n",
+        "sns.lineplot(x=time, y=R, label = 'Recovered')\n",
+        "\n",
+        "#annotate peak infection\n",
+        "peak_day = np.argmax(I)\n",
+        "peak_value = I[peak_day]\n",
+        "plt.annotate(f'Peak\\nDay {peak_day}', xy=(peak_day,peak_value),\n",
+        "xytext=(peak_day + 10, peak-value-50)\n",
+        "\n",
+        "arrowpops=dict(arrowstyle='->', lw=1.5), fontsize=10,\n",
+        "bbox=dict(boxstyle='round, pad =0.3', facecolor= 'yellow', alpha= 0.4))\n",
+        "\n",
+        "plt.title('SIR model simulation (B=0.3, y=0.1)')\n",
+        "plt.xlabel('Days')\n",
+        "plt.ylabel('Population')\n",
+        "plt.lengend()\n",
+        "plt.grind(True)\n",
+        "plt.savagefig('sir_main_plot.png')\n",
+        "plt.show()\n",
+        "\n",
+        "#comparison plot fr diff beta/gamma\n",
+        "plot.figure(figsize= (14, 6))\n",
+        "for (S, I, R), (beta, gamma), in\n",
+        "zip(results, paramas):snslineplot(x=time, y=I, label=f'B={beta}, y={gamma}')\n",
+        "\n",
+        "plt.title('Comparison of Infected Over Time for Different B/y Values')\n",
+        "plt.xlabel('Days')\n",
+        "plt.ylabel('Infected Population')\n",
+        "pltlegend()\n",
+        "plt.grid(True)\n",
+        "plt.savefig('sir_comparison_plot.png')\n",
+        "\n"
+      ]
+    }
+  ]
+}
